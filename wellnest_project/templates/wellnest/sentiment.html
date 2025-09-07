@@ -1,0 +1,55 @@
+<!-- templates/wellnest/sentiment.html -->
+{% extends 'wellnest/base.html' %}
+{% block title %}Sentiment{% endblock %}
+{% block content %}
+<div class="sentiment-container">
+    <div class="mood-card">
+        <h2>You’re feeling {{ sentiment }} today
+            {% if sentiment == 'excited' %}🤩
+            {% elif sentiment == 'happy' %}😊
+            {% elif sentiment == 'calm' %}😌
+            {% elif sentiment == 'neutral' %}😐
+            {% elif sentiment == 'sad' %}😟
+            {% elif sentiment == 'angry' %}😣
+            {% elif sentiment == 'anxious' %}😰
+            {% else %}😐{% endif %}
+        </h2>
+    </div>
+    <div class="video-card">
+        <iframe width="100%" height="315" src="{{ videos.0 }}?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p>Meditation Video</p>
+    </div>
+    <div class="video-card">
+        <iframe width="100%" height="315" src="{{ videos.1 }}?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <p>Motivational Video</p>
+    </div>
+    <div class="affirmations-container">
+        <h3>Your Affirmations</h3>
+        <div class="affirmations-box">
+            {% for affirmation in affirmations %}
+            <p>{{ affirmation }}</p>
+            {% empty %}
+            <p>No affirmations available.</p>
+            {% endfor %}
+        </div>
+        <button onclick="readAffirmations()">🔊 Read Aloud</button>
+        <a href="{% url 'home' %}" class="journal-button">Go Back to Home</a>
+    </div>
+</div>
+<script>
+    function readAffirmations() {
+        const affirmations = document.querySelectorAll('.affirmations-box p');
+        let text = Array.from(affirmations).map(p => p.textContent).join(' ');
+        const utterance = new SpeechSynthesisUtterance(text);
+        const voices = speechSynthesis.getVoices();
+        const selectedVoice = voices.find(voice => voice.lang.includes('en')) || voices[0];
+        utterance.voice = selectedVoice;
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        speechSynthesis.speak(utterance);
+    }
+    speechSynthesis.onvoiceschanged = () => {
+        speechSynthesis.getVoices();
+    };
+</script>
+{% endblock %}

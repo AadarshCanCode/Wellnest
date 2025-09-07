@@ -1,0 +1,14 @@
+<!-- templates/wellnest/login.html -->
+{% extends 'wellnest/base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="login-container">
+    <h2>Welcome back</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{% url 'register' %}">Sign up</a></p>
+</div>
+{% endblock %}

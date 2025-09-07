@@ -1,0 +1,394 @@
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #d4c4fb 0%, #7dd3fc 100%);
+    margin: 0;
+    padding: 0;
+    color: #2d3748;
+    line-height: 1.6;
+    min-height: 100vh;
+    /* Adjust flex to allow content to flow naturally */
+    display: block; /* Override flex to prevent centering issues */
+}
+header {
+    text-align: center;
+    padding: 1.5rem;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 4rem; /* Fixed height for consistency */
+}
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: #4a5568;
+    letter-spacing: 1px;
+}
+.content-wrapper {
+    min-height: calc(100vh - 4rem - 2rem); /* Adjust for header and footer height */
+    padding-top: 4rem; /* Ensure content clears the header */
+}
+footer {
+    text-align: center;
+    padding: 1rem;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 0.9rem;
+    color: #718096;
+}
+.dashboard {
+    text-align: center;
+    padding: 2rem;
+    max-width: 900px;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+}
+.centered-quote {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    color: #4a5568;
+}
+.centered {
+    text-align: center;
+}
+.streak-container {
+    margin: 2rem 0;
+    position: relative;
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.streak-container h3 {
+    font-size: 1.8rem;
+    color: #2d3748;
+    margin-bottom: 1rem;
+}
+.calendar {
+    margin: 1rem auto;
+    max-width: 400px;
+    text-align: center;
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.calendar h4 {
+    font-size: 1.2rem;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #718096;
+}
+.calendar-header span {
+    text-align: center;
+}
+.calendar-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+}
+.calendar-day {
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #718096;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+.calendar-day.filled {
+    background: #68d391;
+    color: white;
+}
+.calendar-day.streak {
+    background: #f87171;
+    color: white;
+    position: relative;
+}
+.calendar-day.streak:after {
+    content: "🔥";
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    font-size: 0.8rem;
+}
+.calendar-day.outside-month {
+    opacity: 0.3;
+}
+.chart-card {
+    margin: 2rem 0;
+    position: relative;
+    height: 300px;
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+#fireworks-container {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    pointer-events: none;
+}
+.firework {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+}
+.journal-button {
+    background: linear-gradient(45deg, #68d391, #4fd1c5);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+.journal-button:hover {
+    background: linear-gradient(45deg, #4fd1c5, #68d391);
+    transform: scale(1.05);
+}
+.privacy-note {
+    font-size: 0.9rem;
+    color: #718096;
+    margin-top: 2rem;
+}
+.sentiment-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in;
+}
+.mood-card {
+    background: linear-gradient(45deg, #fed7d7, #fefcbf);
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease;
+}
+.mood-card:hover {
+    transform: translateY(-5px);
+}
+.mood-card h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #2d3748;
+}
+.video-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.video-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.video-card iframe {
+    border-radius: 10px;
+}
+.video-card p {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+    color: #718096;
+}
+.affirmations-container {
+    margin-top: 2rem;
+}
+.affirmations-container h3 {
+    font-size: 1.5rem;
+    color: #4a5568;
+    margin-bottom: 1rem;
+}
+.affirmations-box {
+    background: linear-gradient(45deg, #e6fffa, #fefcbf);
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+.affirmations-box:hover {
+    transform: translateY(-3px);
+}
+.affirmations-box p {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+    color: #2d3748;
+    font-style: italic;
+}
+.affirmations-container button {
+    background: linear-gradient(45deg, #68d391, #4fd1c5);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+.affirmations-container button:hover {
+    background: linear-gradient(45deg, #4fd1c5, #68d391);
+    transform: scale(1.05);
+}
+.journal-container {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in;
+}
+.journal-container h2 {
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+}
+.journal-container textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    font-size: 1rem;
+    resize: vertical;
+}
+.journal-container button {
+    background: linear-gradient(45deg, #68d391, #4fd1c5);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    margin: 0.5rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+.journal-container button:hover {
+    background: linear-gradient(45deg, #4fd1c5, #68d391);
+    transform: scale(1.05);
+}
+.login-container {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in;
+}
+.login-container h2 {
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+}
+.register-container {
+    max-width: 400px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: fadeIn 0.5s ease-in;
+}
+.register-container h2 {
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+.register-container p {
+    margin: 1rem 0;
+}
+.register-container label {
+    display: block;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+.register-container input {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+.register-container button {
+    background: linear-gradient(45deg, #68d391, #4fd1c5);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+.register-container button:hover {
+    background: linear-gradient(45deg, #4fd1c5, #68d391);
+    transform: scale(1.05);
+}
+input, textarea {
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    padding: 0.8rem;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+input:focus, textarea:focus {
+    border-color: #68d391;
+    outline: none;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 600px) {
+    .calendar {
+        max-width: 300px;
+    }
+    .chart-card {
+        height: 200px;
+    }
+    .sentiment-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    .mood-card h2 {
+        font-size: 1.5rem;
+    }
+    .video-card iframe {
+        height: 200px;
+    }
+}

@@ -1,0 +1,88 @@
+{% extends 'wellnest/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<head>
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+</head>
+<div class="dashboard">
+    <h2 class="centered-quote">{{ quote }}</h2>
+    <div class="streak-container">
+        <h3 class="centered">Your Streak: <span id="streak-count">{{ streak }}</span> days 🔥</h3>
+        <div class="calendar">
+            <h4>{{ calendar.month_name }}</h4>
+            <div class="calendar-header">
+                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+            </div>
+            {% for week in calendar.weeks %}
+            <div class="calendar-week">
+                {% for day in week %}
+                <div class="calendar-day 
+                    {% if day.has_entry %}filled{% endif %} 
+                    {% if day.date|date:'Y-m-d' == today|date:'Y-m-d' and streak > 0 %}streak{% endif %}
+                    {% if not day.is_current_month %}outside-month{% endif %}">
+                    {{ day.date|date:"d" }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <div id="fireworks-container"></div>
+    </div>
+    <div class="chart-card">
+        <canvas id="entryChart" style="max-width: 100%; height: auto;"></canvas>
+    </div>
+    <a href="{% url 'journal' %}" class="journal-button">Write Today’s Journal ✍️</a>
+    <p class="privacy-note centered"> 🌙</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script>
+    const ctx = document.getElementById('entryChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ chart_data.labels|safe }},
+            datasets: [{
+                label: 'Journal Entries',
+                data: {{ chart_data.counts|safe }},
+                backgroundColor: '#68d391',
+                borderRadius: 5,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+    const streak = {{ streak }};
+    if (streak > 0) {
+        anime({
+            targets: '#streak-count',
+            scale: [1, 1.5, 1],
+            duration: 1000,
+            easing: 'easeInOutQuad'
+        });
+        const fireworksContainer = document.getElementById('fireworks-container');
+        for (let i = 0; i < 10; i++) {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            fireworksContainer.appendChild(firework);
+            anime({
+                targets: firework,
+                translateX: () => anime.random(-150, 150),
+                translateY: () => anime.random(-150, 150),
+                scale: [0, anime.random(1, 2)],
+                opacity: [1, 0],
+                backgroundColor: ['#ff6b6b', '#4fd1c5', '#fed7d7'],
+                duration: 1200,
+                delay: anime.random(0, 600),
+                easing: 'easeOutQuad',
+                complete: () => firework.remove()
+            });
+        }
+    }
+</script>
+{% endblock %}

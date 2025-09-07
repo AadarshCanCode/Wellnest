@@ -1,0 +1,10 @@
+<!-- templates/wellnest/error.html -->
+{% extends 'wellnest/base.html' %}
+{% block title %}Error{% endblock %}
+{% block content %}
+<div class="error-container">
+    <h2>Oops! Something went wrong.</h2>
+    <p>{{ message }}</p>
+    <a href="{% url 'home' %}" class="journal-button">Go Back to Home</a>
+</div>
+{% endblock %}

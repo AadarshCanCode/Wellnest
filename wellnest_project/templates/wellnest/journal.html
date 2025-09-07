@@ -1,0 +1,14 @@
+<!-- templates/wellnest/journal.html -->
+{% extends 'wellnest/base.html' %}
+{% block title %}Journal{% endblock %}
+{% block content %}
+<div class="journal-container">
+    <h2>Your Journal</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" name="save">Save</button>
+        <button type="submit" name="save_suggest">Save & Suggest</button>
+    </form>
+</div>
+{% endblock %}
