@@ -16,7 +16,6 @@ def redirect_to_login(request):
         return redirect('login')
     return redirect('home')
 
-@login_required
 def home(request):
     end_date = timezone.now().replace(hour=23, minute=59, second=59, microsecond=999999)  # End of today
 

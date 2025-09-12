@@ -25,7 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(
         template_name='wellnest/login.html',
-        redirect_authenticated_user=True,  # Redirect authenticated users to avoid login page
         next_page='/'  # Explicitly set redirect to root
     ), name='login'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
