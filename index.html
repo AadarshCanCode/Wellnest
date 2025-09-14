@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wellnest - Your Wellness Journey</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Navigation -->
+      <nav class="navbar">
+        <div class="nav-container">
+          <div class="nav-brand">
+            <span class="brand-icon">🌱</span>
+            <span class="brand-text">Wellnest</span>
+          </div>
+          <div class="nav-menu">
+            <button class="nav-item active" data-section="home">Home</button>
+            <button class="nav-item" data-section="habits">Habits</button>
+            <button class="nav-item" data-section="goals">Goals</button>
+            <button class="nav-item" data-section="insights">Insights</button>
+          </div>
+          <button class="mobile-menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+          <div class="hero">
+            <div class="hero-content">
+              <h1 class="hero-title">Welcome to Your Wellness Journey</h1>
+              <p class="hero-subtitle">Track habits, achieve goals, and discover insights about your well-being</p>
+              <button class="cta-button" data-action="start-journey">Start Your Journey</button>
+            </div>
+            <div class="hero-stats">
+              <div class="stat-card">
+                <div class="stat-number" id="total-habits">0</div>
+                <div class="stat-label">Habits Tracked</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number" id="current-streak">0</div>
+                <div class="stat-label">Day Streak</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number" id="completion-rate">0%</div>
+                <div class="stat-label">Completion Rate</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Habits Section -->
+        <section id="habits" class="section">
+          <div class="section-header">
+            <h2>Daily Habits</h2>
+            <button class="add-button" id="add-habit-btn">+ Add Habit</button>
+          </div>
+          
+          <div class="habit-form" id="habit-form" style="display: none;">
+            <input type="text" id="habit-name" placeholder="Habit name" />
+            <select id="habit-category">
+              <option value="health">🏃 Health</option>
+              <option value="mindfulness">🧘 Mindfulness</option>
+              <option value="productivity">💼 Productivity</option>
+              <option value="learning">📚 Learning</option>
+              <option value="social">👥 Social</option>
+            </select>
+            <div class="form-actions">
+              <button id="save-habit">Save</button>
+              <button id="cancel-habit">Cancel</button>
+            </div>
+          </div>
+
+          <div class="habits-grid" id="habits-container">
+            <!-- Habits will be dynamically added here -->
+          </div>
+        </section>
+
+        <!-- Goals Section -->
+        <section id="goals" class="section">
+          <div class="section-header">
+            <h2>Wellness Goals</h2>
+            <button class="add-button" id="add-goal-btn">+ Add Goal</button>
+          </div>
+
+          <div class="goal-form" id="goal-form" style="display: none;">
+            <input type="text" id="goal-title" placeholder="Goal title" />
+            <textarea id="goal-description" placeholder="Goal description"></textarea>
+            <input type="date" id="goal-deadline" />
+            <div class="form-actions">
+              <button id="save-goal">Save</button>
+              <button id="cancel-goal">Cancel</button>
+            </div>
+          </div>
+
+          <div class="goals-grid" id="goals-container">
+            <!-- Goals will be dynamically added here -->
+          </div>
+        </section>
+
+        <!-- Insights Section -->
+        <section id="insights" class="section">
+          <div class="section-header">
+            <h2>Your Insights</h2>
+          </div>
+          
+          <div class="insights-grid">
+            <div class="insight-card">
+              <h3>Weekly Progress</h3>
+              <canvas id="progress-chart"></canvas>
+            </div>
+            
+            <div class="insight-card">
+              <h3>Category Breakdown</h3>
+              <div id="category-breakdown">
+                <!-- Category progress bars will be added here -->
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
