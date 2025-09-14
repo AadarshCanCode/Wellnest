@@ -28,7 +28,9 @@ export class NavigationManager {
       const navMenu = document.querySelector('.nav-menu')
       const mobileToggle = document.querySelector('.mobile-menu-toggle')
       
-      if (!navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+      if (navMenu && mobileToggle && 
+          !navMenu.contains(e.target) && 
+          !mobileToggle.contains(e.target)) {
         this.closeMobileMenu()
       }
     })
@@ -71,12 +73,17 @@ export class NavigationManager {
   }
 
   onSectionChange(sectionName) {
-    // Add any section-specific logic here
-    if (sectionName === 'insights') {
-      // Trigger insights update when section becomes visible
+    // Update mood tracker when mood section becomes visible
+    if (sectionName === 'mood' && window.auroraApp?.moodTracker) {
       setTimeout(() => {
-        const event = new CustomEvent('insightsVisible')
-        document.dispatchEvent(event)
+        window.auroraApp.moodTracker.updateMoodData()
+      }, 100)
+    }
+
+    // Update insights when insights section becomes visible
+    if (sectionName === 'insights' && window.auroraApp?.insightsManager) {
+      setTimeout(() => {
+        window.auroraApp.insightsManager.updateInsights(window.auroraApp.data)
       }, 100)
     }
   }
@@ -85,37 +92,23 @@ export class NavigationManager {
     const navMenu = document.querySelector('.nav-menu')
     const mobileToggle = document.querySelector('.mobile-menu-toggle')
     
-    navMenu.classList.toggle('active')
-    mobileToggle.classList.toggle('active')
+    if (navMenu && mobileToggle) {
+      navMenu.classList.toggle('active')
+      mobileToggle.classList.toggle('active')
+    }
   }
 
   closeMobileMenu() {
     const navMenu = document.querySelector('.nav-menu')
     const mobileToggle = document.querySelector('.mobile-menu-toggle')
     
-    navMenu.classList.remove('active')
-    mobileToggle.classList.remove('active')
+    if (navMenu && mobileToggle) {
+      navMenu.classList.remove('active')
+      mobileToggle.classList.remove('active')
+    }
   }
 
   handleMobileMenu() {
-    // Add mobile menu styles dynamically if needed
-    const style = document.createElement('style')
-    style.textContent = `
-      @media (max-width: 768px) {
-        .nav-menu.active {
-          display: flex !important;
-        }
-        .mobile-menu-toggle.active span:nth-child(1) {
-          transform: rotate(45deg) translate(5px, 5px);
-        }
-        .mobile-menu-toggle.active span:nth-child(2) {
-          opacity: 0;
-        }
-        .mobile-menu-toggle.active span:nth-child(3) {
-          transform: rotate(-45deg) translate(7px, -6px);
-        }
-      }
-    `
-    document.head.appendChild(style)
+    // Mobile menu styles are handled in CSS
   }
 }

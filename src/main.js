@@ -1,28 +1,31 @@
 import './style.css'
 import { NavigationManager } from './modules/navigationManager.js'
-import { HabitTracker } from './modules/habitTracker.js'
-import { GoalManager } from './modules/goalManager.js'
+import { JournalManager } from './modules/journalManager.js'
+import { MoodTracker } from './modules/moodTracker.js'
 import { InsightsManager } from './modules/insightsManager.js'
+import { ThemeManager } from './modules/themeManager.js'
 
-class WellnestApp {
+class AuroraJournalApp {
   constructor() {
     this.data = this.loadData()
     this.initializeModules()
     this.bindEvents()
     this.updateStats()
+    this.initializeParticles()
   }
 
   initializeModules() {
+    this.themeManager = new ThemeManager()
     this.navigation = new NavigationManager()
-    this.habitTracker = new HabitTracker(this.data.habits, this.onDataChange.bind(this))
-    this.goalManager = new GoalManager(this.data.goals, this.onDataChange.bind(this))
+    this.journalManager = new JournalManager(this.data.entries, this.onDataChange.bind(this))
+    this.moodTracker = new MoodTracker(this.data.entries, this.onDataChange.bind(this))
     this.insightsManager = new InsightsManager(this.data)
   }
 
   bindEvents() {
     // CTA button
-    document.querySelector('[data-action="start-journey"]')?.addEventListener('click', () => {
-      this.navigation.showSection('habits')
+    document.querySelector('[data-action="start-journaling"]')?.addEventListener('click', () => {
+      this.navigation.showSection('journal')
     })
 
     // Auto-save data every 30 seconds
@@ -43,22 +46,17 @@ class WellnestApp {
   }
 
   updateStats() {
-    const totalHabits = this.data.habits.length
-    const today = new Date().toDateString()
-    const todayCompletions = this.data.habits.filter(habit => 
-      habit.completedDates && habit.completedDates.includes(today)
-    ).length
-    
-    const completionRate = totalHabits > 0 ? Math.round((todayCompletions / totalHabits) * 100) : 0
+    const totalEntries = this.data.entries.length
     const streak = this.calculateStreak()
+    const todaysMood = this.getTodaysMood()
 
-    document.getElementById('total-habits').textContent = totalHabits
+    document.getElementById('total-entries').textContent = totalEntries
     document.getElementById('current-streak').textContent = streak
-    document.getElementById('completion-rate').textContent = `${completionRate}%`
+    document.getElementById('mood-score').textContent = todaysMood || '--'
   }
 
   calculateStreak() {
-    if (this.data.habits.length === 0) return 0
+    if (this.data.entries.length === 0) return 0
     
     let streak = 0
     const today = new Date()
@@ -68,13 +66,11 @@ class WellnestApp {
       checkDate.setDate(today.getDate() - i)
       const dateString = checkDate.toDateString()
       
-      const dayCompletions = this.data.habits.filter(habit => 
-        habit.completedDates && habit.completedDates.includes(dateString)
-      ).length
+      const hasEntry = this.data.entries.some(entry => 
+        new Date(entry.date).toDateString() === dateString
+      )
       
-      const dayCompletionRate = this.data.habits.length > 0 ? dayCompletions / this.data.habits.length : 0
-      
-      if (dayCompletionRate >= 0.5) { // At least 50% completion
+      if (hasEntry) {
         streak++
       } else {
         break
@@ -84,15 +80,45 @@ class WellnestApp {
     return streak
   }
 
+  getTodaysMood() {
+    const today = new Date().toDateString()
+    const todaysEntry = this.data.entries.find(entry => 
+      new Date(entry.date).toDateString() === today
+    )
+    
+    if (todaysEntry && todaysEntry.mood) {
+      const moodEmojis = {
+        amazing: '😊',
+        good: '🙂',
+        neutral: '😐',
+        sad: '😔',
+        anxious: '😰'
+      }
+      return moodEmojis[todaysEntry.mood] || '--'
+    }
+    
+    return '--'
+  }
+
+  initializeParticles() {
+    const particles = document.querySelectorAll('.particle')
+    particles.forEach((particle, index) => {
+      particle.style.left = Math.random() * 100 + '%'
+      particle.style.animationDelay = Math.random() * 20 + 's'
+      particle.style.animationDuration = (15 + Math.random() * 10) + 's'
+    })
+  }
+
   loadData() {
     const defaultData = {
-      habits: [],
-      goals: [],
-      completions: {}
+      entries: [],
+      settings: {
+        theme: 'dark'
+      }
     }
     
     try {
-      const saved = localStorage.getItem('wellnest-data')
+      const saved = localStorage.getItem('aurora-journal-data')
       return saved ? { ...defaultData, ...JSON.parse(saved) } : defaultData
     } catch (error) {
       console.error('Error loading data:', error)
@@ -102,7 +128,7 @@ class WellnestApp {
 
   saveData() {
     try {
-      localStorage.setItem('wellnest-data', JSON.stringify(this.data))
+      localStorage.setItem('aurora-journal-data', JSON.stringify(this.data))
     } catch (error) {
       console.error('Error saving data:', error)
     }
@@ -111,5 +137,5 @@ class WellnestApp {
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  new WellnestApp()
+  window.auroraApp = new AuroraJournalApp()
 })
